@@ -1,3 +1,4 @@
+
 <html>
 
 <head>
@@ -8,15 +9,107 @@
     <script>
         var processResponse = function (response)
         {
-            fetch("https://ip.oxylabs.io/").then(res => res.text()).then(data => window.location = '?host=' + data + '&userAgent=' + navigator.userAgent + '&token=' + response);
+            fetch("https://ip.oxylabs.io/").then(res => res.text()).then(data => window.location = '?host=' + data + '&port=' + document.getElementById("port").value + '&userAgent=' + navigator.userAgent + '&token=' + response);
         }
     </script>
+
+    <style>
+        input[type="number"] {
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .number-input {
+            border: 2px solid #ddd;
+            display: inline-flex;
+        }
+
+        .number-input,
+        .number-input * {
+            box-sizing: border-box;
+        }
+
+        .number-input button {
+            outline: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            margin: 0;
+            position: relative;
+        }
+
+        .number-input button:before,
+        .number-input button:after {
+            display: inline-block;
+            position: absolute;
+            content: '';
+            width: 1rem;
+            height: 2px;
+            background-color: #212121;
+            transform: translate(-50%, -50%);
+        }
+
+        .number-input button.plus:after {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .number-input input[type=number] {
+            font-family: sans-serif;
+            max-width: 5rem;
+            padding: .5rem;
+            border: solid #ddd;
+            border-width: 0 2px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
 
     <div class="h-captcha" data-sitekey="edc4ce89-8903-4906-80b1-7440ad9a69c8" data-callback="processResponse"></div>
 
+    <td>
+        <div class="form-row justify-content-center">
+            <div class="form-group">
+                <div class="input-group mx-auto mb-3">
+                    <div class="number-input">
+                        <button
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown();mySave();"></button>
+                        <input class="quantity" min="0" placeholder="0" name="quantity" type="number" id="port"
+                            value="20001">
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp();mySave();"
+                            class="plus"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </td>
+
+    <script>
+        myLoad();
+        function mySave()
+        {
+            var myContent = document.getElementById("port").value;
+            localStorage.setItem("myContent", myContent);
+        }
+
+        function myLoad()
+        {
+            var myContent = localStorage.getItem("myContent");
+            document.getElementById("port").value = myContent;
+        }
+    </script>
 </body>
 
 </html>
